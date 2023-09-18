@@ -3,10 +3,12 @@ export default {
   content: [
       './resources/**/*.blade.php',
       './resources/**/*.js',
-      './resources/**/*.vue'
+      './resources/**/*npx .vue'
   ],
   theme: {
-    extend: {},
+    extend: {
+
+    },
   },
   plugins: [],
 }

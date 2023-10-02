@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game', function (Blueprint $table) {
+        Schema::create('woah_data', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 50);
-            $table->string('image_link', 255);
-            $table->text('description');
-            $table->integer('likes');
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game');
+        Schema::dropIfExists('woah_data');
     }
 };

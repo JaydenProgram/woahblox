@@ -10,17 +10,17 @@
 
     <title>Woahblox</title>
     @vite('resources/css/app.css')
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
 
 </head>
 <body class="text-gray-700">
-    <div> <!-- Header -->
-        <div>
-            <nav class ="font-semibold text-lg flex bg-gray-200">
-                <div class="m-2 pr-6 w-36">
-                        <a href="{{ url('/') }}"><img src="{{ Vite::asset('resources/images/woahlogo.png') }}"></a>
-                </div>
-                <div class="flex m-2">
+<div> <!-- Header -->
+    <div>
+        <nav class ="font-semibold text-lg flex bg-gray-200">
+            <div class="m-2 pr-6 w-36">
+                <a href="{{ url('/') }}"><img src="{{ Vite::asset('resources/images/woahlogo.png') }}"></a>
+            </div>
+            <div class="flex m-2">
                 <ul class="flex space-x-20">
                     <li>
                         <a href="{{ url('/') }}">Home</a>
@@ -41,14 +41,14 @@
                         <input type="text" id="search" name="search">
                     </form>
                 </div>
-                    @guest
+                @guest
 
-                <div class ="font-semibold text-lg ml-96">
-                    @if (Route::has('login'))
-                    <a href="{{ route('login') }}">{{ __('Login') }}</a>
-                    @endif
+                    <div class ="font-semibold text-lg ml-96">
+                        @if (Route::has('login'))
+                            <a href="{{ route('login') }}">{{ __('Login') }}</a>
+                        @endif
                         @if (Route::has('register'))
-                    <a class="ml-2" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="ml-2" href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
                         @else
                             <a>{{ Auth::user()->name }}</a>
@@ -60,11 +60,17 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                                 @csrf
                             </form>
-                </div>
-                    @endguest
-                </div>
-            </nav>
-        </div> <!-- End nav -->
+                    </div>
+                @endguest
+            </div>
+        </nav>
+    </div> <!-- End nav -->
+</div>
+
+
+<main class="py-4">
+            @yield('content')
+        </main>
     </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
     <main class="m-8">
         <header>
-            <h1 class="text-4xl font-bold">
+            <h1 class="text-4xl font-bold text-black">
                 Home
             </h1>
         </header>
@@ -23,16 +23,28 @@
 {{--        </div>--}}
 
         <div>
-            <h2 class="font-semibold text-2xl">Continue</h2>
-            <p class="font-semibold text-lg"> See All -></p>
-            <div>
+            <div class="flex space-x-[700px]">
+                <h2 class="font-semibold text-2xl text-black">Continue</h2>
+                <p class="font-semibold text-lg "> See All -></p>
+            </div>
+
+            <div class="flex space-x-4">
                 <!-- Game list 1 -->
-                <div>
-                    <img src="" alt="">
+                @for($i = 0; $i < 6; $i++)
+                    @if(isset($games[$i]))
                     <div>
-                        <span>Name</span>
+
+                        <img class="rounded-lg" src="{{$games[$i]->image_link}}" alt="Game Image">
+                        <div>
+                            <h2 class="font-semibold text-xl max-w-max">{{ $games[$i]->name }}</h2>
+                            <div class="flex space-x-7">
+                                <p class="text-gray-1000 font-medium">{{ $games[$i]->likes }}</p>
+                                <p class="text-gray-1000 font-medium">{{ $games[$i]->play_count }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    @endif
+                @endfor
             </div>
         </div>
     </main>

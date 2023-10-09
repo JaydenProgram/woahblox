@@ -41,6 +41,7 @@
                         <input type="text" id="search" name="search">
                     </form>
                 </div>
+
                     @guest
 
                 <div class ="font-semibold text-lg ml-96">
@@ -51,8 +52,9 @@
                     <a class="ml-2" href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
                         @else
-                            <a>{{ Auth::user()->name }}</a>
-                            <a class="" href="{{ route('logout') }}"
+
+                            <a class="">{{ Auth::user()->name }}</a>
+                            <a class="ml-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
@@ -63,6 +65,7 @@
                 </div>
                     @endguest
                 </div>
+
             </nav>
         </div> <!-- End nav -->
     </div>

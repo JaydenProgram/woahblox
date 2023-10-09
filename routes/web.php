@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\worldController;
-
-
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CustomHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +24,14 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/games/create', [GameController::class, 'create'])->name('games.create');
+Route::post('/games',  [GameController::class, 'store'])->name('games.store');
+Route::get('/', [GameController::class, 'welcome'])->name('games.welcome');
 
 
 
-Route::get('/hellos', [worldController::class, 'index']);
-Route::get('/hellos/bigWorld', [worldController::class, 'bigWorld']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/home', [CustomHomeController::class, 'index'])->name('home');

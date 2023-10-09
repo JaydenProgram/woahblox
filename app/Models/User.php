@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -20,8 +21,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'profile_picture'
+        'password'
+
     ];
 
     /**
@@ -45,4 +46,8 @@ class User extends Authenticatable
     ];
 
 
+    public function games(): HasMany
+    {
+        return $this->hasMany(game::class);
+    }
 }

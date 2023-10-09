@@ -52,7 +52,7 @@
                         @endif
                         @else
                             <a>{{ Auth::user()->name }}</a>
-                            <a class="" href="{{ route('logout') }}"
+                            <a class="ml-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}

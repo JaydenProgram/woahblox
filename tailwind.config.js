@@ -7,7 +7,9 @@ export default {
   ],
   theme: {
     extend: {
-
+        spacing: {
+            '700px': '700px',
+        }
     },
   },
   plugins: [],

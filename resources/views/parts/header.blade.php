@@ -31,9 +31,13 @@
                     <li>
                         <a href="{{ url('/') }}">Marketplace</a>
                     </li>
+                    @auth
                     <li>
-                        <a href="{{ url('/') }}">Create</a>
+                        <a href="{{route('games.create')}}">Create</a>
+                        @else
+                            <!-- Shows no create so you cant create -->
                     </li>
+                    @endauth
                 </ul>
                 <div>
                     <form class="ml-24 mr-20">
@@ -51,8 +55,9 @@
                         @if (Route::has('register'))
                     <a class="ml-2" href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
+                </div>
                         @else
-
+                        <div class ="font-semibold text-lg ml-96">
                             <a class="">{{ Auth::user()->name }}</a>
                             <a class="ml-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

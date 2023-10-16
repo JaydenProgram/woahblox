@@ -34,7 +34,7 @@
                     @if(isset($games[$i]))
                     <div>
 
-                        <img class="rounded-lg" src="{{$games[$i]->image_link}}" alt="Game Image">
+                        <img class="rounded-lg" src="{{asset($games[$i]->image_link)}}" alt="Game Image">
                         <div>
                             <h2 class="font-semibold text-xl max-w-max">{{ $games[$i]->name }}</h2>
                             <div class="flex space-x-7">

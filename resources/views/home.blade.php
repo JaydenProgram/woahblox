@@ -1,12 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+    <script type="module" src="{{ mix('resources/js/app.js') }}"></script>
     <div class="font-semibold text-lg flex justify-center">{{ __('Dashboard') }}</div>
 <main class="m-8">
     <header>
         <h1 class="text-4xl font-bold">
             Home <a href="{{route('games.create')}}">Add game</a>
         </h1>
+{{--        @foreach($types as $type)--}}
+{{--            <div id="game-container">--}}
+{{--                <a href="#" class="filter-link" data-type="{{ $type }}">{{ ucfirst($type) }} Games</a>--}}
+
+{{--            </div>--}}
+
+{{--        @endforeach--}}
+        <a href="#" class="filter-link" data-type="horror">Puzzle Games</a>
     </header>
 
     {{--        <div>--}}
@@ -34,7 +43,7 @@
                 @if(isset($games[$i]))
                     <div>
 
-                        <img class="rounded-lg" src="{{$games[$i]->image_link}}" alt="Game Image">
+                        <img class="rounded-lg" src="{{asset($games[$i]->image_link)}}" alt="Game Image">
                         <div>
                             <h2 class="font-semibold text-xl max-w-max">{{ $games[$i]->name }}</h2>
                             <div class="flex space-x-7">

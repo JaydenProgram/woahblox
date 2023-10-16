@@ -14,6 +14,15 @@ class Game extends Model
         return $this->belongsTo(User::class);
     }
 
+    protected $fillable = [
+        'name',
+        'description',
+        'likes',
+        'play_count',
+        'image_link',
+        'type', // Add this line for the new field
+    ];
+
 }
 
 

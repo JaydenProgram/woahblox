@@ -24,9 +24,12 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/games/create', [GameController::class, 'create'])->name('games.create');
-Route::post('/games',  [GameController::class, 'store'])->name('games.store');
+/*I used both middleware and authentication in blade, now the create only works when im logged in*/
+Route::get('/games/create', [GameController::class, 'create'])->middleware('auth')->name('games.create');
+Route::post('/games',  [GameController::class, 'store'])->middleware('auth')->name('games.store');
 Route::get('/', [GameController::class, 'welcome'])->name('games.welcome');
+Route::post('/games/filter', [GameController::class, 'filterByType'])->name('games.filter');
+
 
 
 

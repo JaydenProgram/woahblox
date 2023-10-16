@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('likes')->default(0);
             $table->unsignedInteger('play_count')->default(0);
             $table->string('image_link');
+            $table->string('type');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
 

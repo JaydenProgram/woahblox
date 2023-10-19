@@ -22,9 +22,15 @@
                 </div>
                 <div class="flex m-2">
                 <ul class="flex space-x-20">
+                    @auth
                     <li>
-                        <a href="{{ url('/') }}">Home</a>
+                        <a href="{{ url('/home') }}">Home</a>
                     </li>
+                    @else
+                        <li>
+                            <a href="{{ url('/') }}">Home</a>
+                        </li>
+                    @endauth
                     <li>
                         <a href="{{ url('/') }}">Discover</a>
                     </li>
@@ -48,8 +54,9 @@
 
                     @guest
 
-                <div class ="font-semibold text-lg ml-96">
+
                     @if (Route::has('login'))
+                            <div class ="font-semibold text-lg ml-96">
                     <a href="{{ route('login') }}">{{ __('Login') }}</a>
                     @endif
                         @if (Route::has('register'))

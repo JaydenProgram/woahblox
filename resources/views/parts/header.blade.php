@@ -61,10 +61,17 @@
                     @endif
                         @if (Route::has('register'))
                     <a class="ml-2" href="{{ route('register') }}">{{ __('Register') }}</a>
+
                         @endif
                 </div>
                         @else
+
                         <div class ="font-semibold text-lg ml-96">
+                            <form action="{{ route('users.updateRole', ['id' => auth::user()->id]) }}" method="post">
+                                @csrf
+                                @method('put')
+                                <button class="mr-2" type="submit">Change Role</button>
+                            </form>
                             <a class="">{{ Auth::user()->name }}</a>
                             <a class="ml-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
@@ -74,6 +81,7 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                                 @csrf
                             </form>
+
                 </div>
                     @endguest
                 </div>

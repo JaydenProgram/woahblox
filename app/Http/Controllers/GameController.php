@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
@@ -12,7 +13,10 @@ class GameController extends Controller
     public function index()
     {
         $types = Game::select('type')->distinct()->pluck('type');
-        $games = Game::all();
+        if (!$request->has('favorited')) {
+            $games = Game::all();
+        }
+
 
         return view('games.index', compact('types', 'games'));
     }
@@ -71,24 +75,35 @@ class GameController extends Controller
     {
     $games = Game::all(); // Fetch all games
 
-    return view('welcome', ['games' => $games]);
+    return view('welcome', compact('games'));
 
     }
 
     public function home()
     {
-        $games = Game::all(); // Fetch all games
+        if (!$request->has('favorited')) {
+            $games = Game::all();
+        }
 
-        return view('home', ['games' => $games]);
+        return view('home', compact('games'));
 
+    }
+
+    public function favoritedGames()
+    {
+        $types = Game::select('type')->distinct()->pluck('type');
+        $favoritedGames = auth()->user()->favoriteGames()->get();
+
+        return view('home', ['games' => $favoritedGames, 'types' => $types]);
     }
 
     public function filterByType(Request $request)
     {
+        $types = Game::select('type')->distinct()->pluck('type');
         $type = $request->input('type');
         $games = Game::where('type', $type)->get();
 
-        return response()->json(['games' => $games]);
+        return view('home', compact('games', 'types'));
     }
 
     public function destroy($id)
@@ -139,5 +154,40 @@ class GameController extends Controller
         return redirect()->route('games.play', ['id' => $game->id])->with('success', 'Game updated successfully');
     }
 
+    public function favoriteGame(Game $game)
+    {
+        $user = auth()->user();
+
+        if (!$user->favoriteGames()->where('game_id', $game->id)->exists()) {
+            $user->favoriteGames()->attach($game);
+            return redirect()->back()->with('success', 'Game favorited successfully');
+        }
+
+        return redirect()->back()->with('error', 'Game is already favorited');
+    }
+
+    public function unfavoriteGame(Game $game)
+    {
+        $user = auth()->user();
+
+        if ($user->favoriteGames()->where('game_id', $game->id)->exists()) {
+            $user->favoriteGames()->detach($game);
+            return redirect()->back()->with('success', 'Game unfavorited successfully');
+        }
+
+        return redirect()->back()->with('error', 'Game is not favorited');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $types = Game::select('type')->distinct()->pluck('type');
+
+        $games = Game::where('name', 'like', '%'.$query.'%')->get();
+
+
+        return view('home', compact('games', 'types'));
+    }
 
 }

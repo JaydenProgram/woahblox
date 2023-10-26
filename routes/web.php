@@ -33,13 +33,15 @@ Route::get('/', [GameController::class, 'welcome'])->name('games.welcome');
 Route::post('/games/filter', [GameController::class, 'filterByType'])->name('games.filter');
 // Get certain game by id for more info on the game
 Route::get('/games/{id}', [GameController::class, 'play'])->name('games.play');
+//anyone can favorate games
+Route::post('/games/{game}/favorite', [GameController::class, 'favoriteGame'])->name('games.favorite');
+Route::delete('/games/{game}/favorite', [GameController::class, 'unfavoriteGame'])->name('games.unfavorite');
+Route::get('/favorited/games', [GameController::class, 'favoritedGames'])->name('favorited.games');
+Route::get('/games/{search?}', [GameController::class, 'search'])->name('games.search');
 
 
 
-
-
-
-Route::middleware('role:1,2')->group(function () {
+Route::middleware('role:1')->group(function () {
     // I used both middleware and authentication in blade, now the create only works when im logged in
     Route::get('/create', [GameController::class, 'create'])->name('games.create');
 // Post the information into database
@@ -47,6 +49,10 @@ Route::middleware('role:1,2')->group(function () {
 });
 
 Route::middleware('role:2')->group(function () {
+    // I used both middleware and authentication in blade, now the create only works when im logged in
+    Route::get('/create', [GameController::class, 'create'])->name('games.create');
+// Post the information into database
+    Route::post('/games',  [GameController::class, 'store'])->name('games.store');
     // Route to delete game with certain id
     Route::delete('/games/delete/{id}', [GameController::class, 'destroy'])->name('games.destroy');
 // Show the edit form

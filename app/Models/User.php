@@ -53,5 +53,8 @@ class User extends Authenticatable
         return $this->hasMany(game::class);
     }
 
-
+    public function favoriteGames()
+    {
+        return $this->belongsToMany(Game::class)->withTimestamps();
+    }
 }

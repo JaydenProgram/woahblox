@@ -14,6 +14,11 @@ class Game extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
     protected $fillable = [
         'name',
         'description',

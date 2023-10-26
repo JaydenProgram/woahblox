@@ -18,19 +18,16 @@
         <div>
             <nav class ="font-semibold text-lg flex bg-gray-200">
                 <div class="m-2 pr-6 w-36">
-                        <a href="{{ url('/') }}"><img src="{{ Vite::asset('resources/images/woahlogo.png') }}"></a>
+                        <a href="@auth
+                        {{ url('/home') }}@else {{ url('/') }} @endauth "><img src="{{ Vite::asset('resources/images/woahlogo.png') }}"></a>
                 </div>
                 <div class="flex m-2">
                 <ul class="flex space-x-20">
-                    @auth
+
                     <li>
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="@auth
+                        {{ url('/home') }}@else {{ url('/') }} @endauth">Home</a>
                     </li>
-                    @else
-                        <li>
-                            <a href="{{ url('/') }}">Home</a>
-                        </li>
-                    @endauth
                     <li>
                         <a href="{{ url('/') }}">Discover</a>
                     </li>
@@ -44,14 +41,14 @@
                             <!-- Shows no create so you cant create -->
                     </li>
                     @endauth
-                </ul>
-                <div>
-                    <form class="ml-24 mr-20">
-                        <label for="search">Search</label>
-                        <input type="text" id="search" name="search">
-                    </form>
-                </div>
 
+                <li>
+                    <form id="searchForm" action="{{ route('games.search') }}" method="GET">
+                        <label for="query">Search:</label>
+                        <input type="text" name="query" id="query">
+                    </form>
+                </li>
+                    </ul>
                     @guest
 
 

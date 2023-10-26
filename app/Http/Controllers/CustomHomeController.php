@@ -9,10 +9,12 @@ class CustomHomeController extends Controller
 {
     public function index()
     {
-        // Add your custom logic here
-        $games = Game::all();
+        $types = Game::select('type')->distinct()->pluck('type');
+
+            $games = Game::all();
 
 
-        return view('home', compact('games'));
+
+        return view('home', compact('types', 'games'));
     }
 }

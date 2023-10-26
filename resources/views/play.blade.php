@@ -19,11 +19,16 @@
                     </div>
                     <div class="mt-36 ml-7 mr-7">
                         @auth
+                            @if(auth()->user()->role_id == 2)
+
+
                             <a href="{{ route('games.edit', ['id' => $game->id]) }}">
                             <button type="button" class="bg-green-500 w-80 h-16 border-b-black rounded-lg text-white">
                                 Edit
                             </button>
+
                     </a>
+
                         @else
                         <button type="button" class="bg-green-500 w-80 h-16 border-b-black rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 fill-white stroke-white flex ml-36">
@@ -31,10 +36,25 @@
                             </svg>
 
                         </button>
+                            @endif
                         @endauth
                         <div class="flex">
-                            <div class="">
-                                <p class="text-base font-medium mt-2 ml-3">Favorite</p>
+
+                            <div>
+                                <form
+                                    action="{{ auth()->user()->favoriteGames->contains($game) ? route('games.unfavorite', $game) : route('games.favorite', $game) }}"
+                                    method="POST"
+                                    class="text-base font-medium mt-2 ml-7"
+                                >
+                                    @csrf
+                                    @if(auth()->user()->favoriteGames->contains($game))
+                                        @method('DELETE')
+                                    @endif
+
+                                    <button type="submit">
+                                        {{ auth()->user()->favoriteGames->contains($game) ? 'Unfavorite' : 'Favorite' }}
+                                    </button>
+                                </form>
                             </div>
                             <div class="">
                                 <p class="text-base font-medium mt-2 ml-7">Follow</p>
@@ -42,6 +62,8 @@
                             <div class="">
                                 <p class="text-base font-medium mt-2 ml-7">{{$game->likes}}</p>
                             </div>
+
+
                             <div class="">
                                 <p class="text-base font-medium mt-2 ml-7">{{$game->play_count}}</p>
                             </div>
@@ -54,11 +76,13 @@
             <div>
                 <p class="text-base font-medium mt-2 ml-4 max-w-[640px]">{{ $game->description }}</p>
                 @auth
+                    @if(auth()->user()->role_id == 2)
                 <form class="ml-4 mt-2 mb-2" action="{{ route('games.destroy', ['id' => $game->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="bg-red-500 w-80 h-16 border-b-black rounded-lg text-white" onclick="return confirm('Are you sure you want to delete this game?');" type="submit">Delete Game</button>
                 </form>
+                    @endif
                 @else
                 {{--Empty--}}
                     @endauth

@@ -15,7 +15,29 @@
 {{--            </div>--}}
 
 {{--        @endforeach--}}
-        <a href="#" class="filter-link" data-type="horror">Puzzle Games</a>
+        <form action="{{ route('games.filter') }}" method="POST">
+            @csrf
+            <label for="type">Select Game Type:</label>
+            <select name="type" id="type">
+
+                @foreach($types as $type)
+                    <option value="{{ $type }}">{{ $type }}</option>
+                @endforeach
+
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        @if(request()->has('favorited'))
+            <form action="{{ route('home') }}" method="GET">
+                <button type="submit">Show All Games</button>
+            </form>
+        @else
+            <form action="{{ route('favorited.games') }}" method="GET">
+                @csrf
+                <input type="hidden" name="favorited" value="1">
+                <button type="submit">Show Favorited Games</button>
+            </form>
+        @endif
     </header>
 
     {{--        <div>--}}
@@ -37,7 +59,8 @@
             <p class="font-semibold text-lg "> See All -></p>
         </div>
 
-        <div class="flex space-x-4">
+        <div id="" class="flex space-x-4">
+            @if(count($games) > 0)
             <!-- Game list 1 -->
             @for($i = 0; $i < 6; $i++)
                 @if(isset($games[$i]))
@@ -58,6 +81,10 @@
                     </div>
                 @endif
             @endfor
+            @else
+                <p>No games found for your search.</p>
+            @endif
+
         </div>
 
     </div>

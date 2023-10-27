@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 50);
             $table->text('description');
-            $table->unsignedInteger('likes')->default(0);
-            $table->unsignedInteger('play_count')->default(0);
+            $table->unsignedInteger('likes')->default(0)->nullable();
+            $table->unsignedInteger('play_count')->default(0)->nullable();
             $table->string('image_link');
-            $table->string('type');
+            $table->string('type', 50);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
 

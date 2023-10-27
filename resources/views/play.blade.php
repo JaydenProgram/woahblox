@@ -19,7 +19,7 @@
                     </div>
                     <div class="mt-36 ml-7 mr-7">
                         @auth
-                            @if(auth()->user()->role_id == 2)
+                            @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1 && $game->user_id == auth()->user()->id)
 
 
                             <a href="{{ route('games.edit', ['id' => $game->id]) }}">
@@ -76,7 +76,7 @@
             <div>
                 <p class="text-base font-medium mt-2 ml-4 max-w-[640px]">{{ $game->description }}</p>
                 @auth
-                    @if(auth()->user()->role_id == 2)
+                    @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1 && $game->user_id == auth()->user()->id)
                 <form class="ml-4 mt-2 mb-2" action="{{ route('games.destroy', ['id' => $game->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')

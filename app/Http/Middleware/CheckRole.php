@@ -19,11 +19,11 @@ class CheckRole
             return redirect('login');
 
 
-        if (auth()->check()) {
+
             if ($request->user()->role_id == $role) {
                 return $next($request);
             }
-        }
+
 
 
         abort(403, 'Unauthorized');

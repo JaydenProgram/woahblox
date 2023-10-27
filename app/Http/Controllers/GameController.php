@@ -29,6 +29,10 @@ class GameController extends Controller
 
     public function play($id)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
         $game = Game::with('user')->findOrFail($id);
 
         return view('play', compact('game'));
@@ -73,9 +77,12 @@ class GameController extends Controller
 
     public function welcome()
     {
+
+    $types = Game::select('type')->distinct()->pluck('type');
+
     $games = Game::all(); // Fetch all games
 
-    return view('welcome', compact('games'));
+    return view('welcome', compact('games', 'types'));
 
     }
 
@@ -103,12 +110,23 @@ class GameController extends Controller
         $type = $request->input('type');
         $games = Game::where('type', $type)->get();
 
+        if(!auth()->check()) {
+            return view('welcome', compact('games', 'types'));
+        }
+
         return view('home', compact('games', 'types'));
     }
 
     public function destroy($id)
     {
         $game = Game::findOrFail($id);
+
+        $user = auth()->user();
+
+        if ($user->role_id == 1 && $game->user_id != $user->id) {
+            abort(403, 'Unauthorized');
+        }
+
         $game->delete();
 
         return redirect()->route('home')->with('success', 'Game deleted successfully');
@@ -117,6 +135,11 @@ class GameController extends Controller
     public function edit($id)
     {
         $game = Game::findOrFail($id);
+        $user = auth()->user();
+
+        if ($user->role_id == 1 && $game->user_id != $user->id) {
+            abort(403, 'Unauthorized');
+        }
         return view('edit', compact('game'));
     }
 
@@ -125,15 +148,21 @@ class GameController extends Controller
 
     {
         $request->validate([
-            'name' => '',
-            'description' => '',
+            'name' => 'required|string|max:50',
+            'description' => 'required|string|max:255',
             'image_link' => '|mimes:jpg,png,jpeg',
-            'type' => '',
-            'likes' => '|integer',
-            'play_count' => '|integer',
+            'type' => 'required|string|max:50',
+            'likes' => 'nullable|integer',
+            'play_count' => 'nullable|integer',
         ]);
 
         $game = Game::findOrFail($id);
+
+        $user = auth()->user();
+
+        if ($user->role_id == 1 && $game->user_id != $user->id) {
+            abort(403, 'Unauthorized');
+        }
 
         $game->user_id = auth()->user()->id;
         $game->name = $request->input('name');
@@ -186,7 +215,9 @@ class GameController extends Controller
 
         $games = Game::where('name', 'like', '%'.$query.'%')->get();
 
-
+        if (!auth()->check()) {
+            return view('welcome', compact('games', 'types'));
+        }
         return view('home', compact('games', 'types'));
     }
 

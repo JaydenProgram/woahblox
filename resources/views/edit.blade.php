@@ -7,7 +7,7 @@
         <div class="flex justify-center mt-10">
             <div class="bg-gray-200 w-3/12 h-4/6 flex flex-col ">
                 <div class="self-center">
-                    <h1 class="text-3xl font-bold mt-4">Create a game!</h1>
+                    <h1 class="text-3xl font-bold mt-4">Edit a game!</h1>
                     <input type="text" id="name" name="name" placeholder="Name" class="px-4 py-2 rounded-md w-fit mt-2" value="{{ $game->name }}">
 
                     <div>

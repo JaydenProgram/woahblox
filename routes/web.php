@@ -66,8 +66,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::put('/users/update-role/{id}', [UserController::class, 'updateRole'])->name('users.updateRole');
-    Route::get('/account/edit', [UserController::class, 'edit'])->name('account.editUser');
-    Route::put('/account/update', [UserController::class, 'update'])->name('account.update');
+    Route::get('/account/edit/{user}', [UserController::class, 'edit'])->name('account.editUser');
+    Route::put('/account/update/{user}', [UserController::class, 'update'])->name('account.update');
 });
 
 Auth::routes();

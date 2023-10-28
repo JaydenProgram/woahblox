@@ -29,10 +29,12 @@
                         {{ url('/home') }}@else {{ url('/') }} @endauth">Home</a>
                     </li>
                     <li>
-                        <a href="{{ url('/') }}">Discover</a>
+                        <a href="@auth
+                        {{ url('/home') }}@else {{ url('/') }} @endauth">Discover</a>
                     </li>
                     <li>
-                        <a href="{{ url('/') }}">Marketplace</a>
+                        <a href="@auth
+                        {{ url('/home') }}@else {{ url('/') }} @endauth">Marketplace</a>
                     </li>
                     @auth
                     <li>
@@ -69,7 +71,7 @@
                                 @method('put')
                                 <button class="mr-2" type="submit">Change Role</button>
                             </form>
-                            <a class="" href="{{ route('account.editUser') }}">{{ Auth::user()->name }}</a>
+                            <a class="" href="{{ route('account.editUser', $user) }}">{{ Auth::user()->name }}</a>
                             <a class="ml-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

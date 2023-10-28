@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -12,19 +13,22 @@ class GameController extends Controller
 
     public function index()
     {
+        $users = User::all();
+        $user = auth()->user();
         $types = Game::select('type')->distinct()->pluck('type');
         if (!$request->has('favorited')) {
             $games = Game::all();
         }
 
 
-        return view('games.index', compact('types', 'games'));
+        return view('games.index', compact('types', 'games', 'users', 'user'));
     }
 
 
     public function create()
     {
-        return view('create_game');
+        $user = auth()->user();
+        return view('create_game', compact('user'));
     }
 
     public function play($id)
@@ -32,10 +36,11 @@ class GameController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+        $user = auth()->user();
 
         $game = Game::with('user')->findOrFail($id);
 
-        return view('play', compact('game'));
+        return view('play', compact('game', 'user'));
     }
 
 
@@ -77,17 +82,19 @@ class GameController extends Controller
 
     public function welcome()
     {
-
+        $user = auth()->user();
     $types = Game::select('type')->distinct()->pluck('type');
 
     $games = Game::all(); // Fetch all games
 
-    return view('welcome', compact('games', 'types'));
+    return view('welcome', compact('games', 'types', 'user'));
 
     }
 
     public function home()
     {
+
+
         if (!$request->has('favorited')) {
             $games = Game::all();
         }
@@ -98,14 +105,18 @@ class GameController extends Controller
 
     public function favoritedGames()
     {
+        $users = User::all();
+
         $types = Game::select('type')->distinct()->pluck('type');
         $favoritedGames = auth()->user()->favoriteGames()->get();
 
-        return view('home', ['games' => $favoritedGames, 'types' => $types]);
+        return view('home', ['games' => $favoritedGames, 'types' => $types, 'users' => $users]);
     }
 
     public function filterByType(Request $request)
     {
+        $users = User::all();
+        $user = auth()->user();
         $types = Game::select('type')->distinct()->pluck('type');
         $type = $request->input('type');
         $games = Game::where('type', $type)->get();
@@ -114,7 +125,7 @@ class GameController extends Controller
             return view('welcome', compact('games', 'types'));
         }
 
-        return view('home', compact('games', 'types'));
+        return view('home', compact('games', 'types', 'users', 'user'));
     }
 
     public function destroy($id)
@@ -209,6 +220,8 @@ class GameController extends Controller
 
     public function search(Request $request)
     {
+        $users = User::all();
+        $user = auth()->user();
         $query = $request->input('query');
 
         $types = Game::select('type')->distinct()->pluck('type');
@@ -218,7 +231,7 @@ class GameController extends Controller
         if (!auth()->check()) {
             return view('welcome', compact('games', 'types'));
         }
-        return view('home', compact('games', 'types'));
+        return view('home', compact('games', 'types', 'users', 'user'));
     }
 
 }
